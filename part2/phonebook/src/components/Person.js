@@ -1,14 +1,21 @@
-const Person = ({ name, number }) => (
+const Person = ({ name, number, id, removePerson }) => (
   <p>
-    {name} {number}
+    {name} {number}{" "}
+    <button onClick={() => removePerson(name, id)}>delete</button>
   </p>
 );
-const Persons = ({ persons, newFilter, showAll }) => {
+const Persons = ({ persons, newFilter, showAll, removePerson }) => {
   if (showAll) {
     return (
       <div>
         {persons.map((p) => (
-          <Person key={p.name} name={p.name} number={p.number} />
+          <Person
+            key={p.id}
+            name={p.name}
+            number={p.number}
+            id={p.id}
+            removePerson={removePerson}
+          />
         ))}
       </div>
     );
@@ -18,9 +25,13 @@ const Persons = ({ persons, newFilter, showAll }) => {
         {persons
           .filter((p) => p.name.toLowerCase().includes(newFilter.toLowerCase()))
           .map((p) => (
-            <p key={p.name}>
-              {p.name} {p.number}
-            </p>
+            <Person
+              key={p.id}
+              name={p.name}
+              number={p.number}
+              id={p.id}
+              removePerson={removePerson}
+            />
           ))}
       </div>
     );
