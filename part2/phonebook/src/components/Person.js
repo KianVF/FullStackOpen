@@ -1,38 +1,51 @@
 const Person = ({ name, number, id, removePerson }) => (
-  <p>
-    {name} {number}{" "}
-    <button onClick={() => removePerson(name, id)}>delete</button>
-  </p>
+  <tr>
+    <td>{name}</td>
+    <td>{number}</td>
+    <td>
+      <button onClick={() => removePerson(name, id)}>delete</button>
+    </td>
+  </tr>
 );
 const Persons = ({ persons, newFilter, showAll, removePerson }) => {
   if (showAll) {
     return (
       <div>
-        {persons.map((p) => (
-          <Person
-            key={p.id}
-            name={p.name}
-            number={p.number}
-            id={p.id}
-            removePerson={removePerson}
-          />
-        ))}
+        <table>
+          <tbody>
+            {persons.map((p) => (
+              <Person
+                key={p.id}
+                name={p.name}
+                number={p.number}
+                id={p.id}
+                removePerson={removePerson}
+              />
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   } else {
     return (
       <div>
-        {persons
-          .filter((p) => p.name.toLowerCase().includes(newFilter.toLowerCase()))
-          .map((p) => (
-            <Person
-              key={p.id}
-              name={p.name}
-              number={p.number}
-              id={p.id}
-              removePerson={removePerson}
-            />
-          ))}
+        <table>
+          <tbody>
+            {persons
+              .filter((p) =>
+                p.name.toLowerCase().includes(newFilter.toLowerCase())
+              )
+              .map((p) => (
+                <Person
+                  key={p.id}
+                  name={p.name}
+                  number={p.number}
+                  id={p.id}
+                  removePerson={removePerson}
+                />
+              ))}
+          </tbody>
+        </table>
       </div>
     );
   }
