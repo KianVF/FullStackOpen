@@ -4,6 +4,7 @@ import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
 import axios from "axios";
 import service from "./services/persons";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [newName, setNewName] = useState("");
@@ -11,6 +12,8 @@ const App = () => {
   const [showAll, setShowAll] = useState(true);
   const [newFilter, setNewFilter] = useState("");
   const [persons, setPersons] = useState([]);
+  const [message, setMessage] = useState(null);
+  const [messageColor, setMessageColor] = useState("green");
 
   useEffect(() => {
     service.getAll().then((people) => {
@@ -38,6 +41,7 @@ const App = () => {
       };
       service.create(nameObject).then((newPerson) => {
         setPersons(persons.concat(newPerson));
+        setNewMessage(`Added ${newName}`, "green");
       });
       setNewName("");
       setNewNumber("");
@@ -59,8 +63,14 @@ const App = () => {
           .then((updatedPerson) => {
             service.getAll().then((people) => {
               setPersons(people);
-              console.log(people);
             });
+            setNewMessage(`Updated ${newName}`, "blue");
+          })
+          .catch((error) => {
+            setNewMessage(
+              `Information of ${newName} has already been removed from server`,
+              "red"
+            );
           });
       }
     }
@@ -70,13 +80,22 @@ const App = () => {
       service.deletePerson(personId).then((removedPerson) => {
         service.getAll().then((people) => {
           setPersons(people);
+          setNewMessage(`Removed ${name}`, "red");
         });
       });
     }
   };
+  const setNewMessage = (message, msgColor) => {
+    setMessageColor(msgColor);
+    setMessage(message);
+    setTimeout(() => {
+      setMessage(null);
+    }, 5000);
+  };
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} msgColor={messageColor} />
       <Filter newFilter={newFilter} handleFilterChange={handleFilterChange} />
       <h3>add a new</h3>
       <PersonForm
