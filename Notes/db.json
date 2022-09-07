@@ -4,7 +4,7 @@
       "id": 1,
       "content": "HTML is easy",
       "date": "2022-1-17T17:30:31.098Z",
-      "important": false
+      "important": true
     },
     {
       "id": 2,
@@ -71,6 +71,12 @@
       "date": "2022-09-06T07:10:47.984Z",
       "important": true,
       "id": 12
+    },
+    {
+      "content": "",
+      "date": "2022-09-07T07:52:26.389Z",
+      "important": true,
+      "id": 13
     }
   ]
 }
